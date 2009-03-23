@@ -1,7 +1,7 @@
-AmberbitAppConfig
+Amberbit Config
 =================
 
-Introduction goes here.
+Provides simple global configuration for Ruby on Rails application using YAML files.
 
 
 Example

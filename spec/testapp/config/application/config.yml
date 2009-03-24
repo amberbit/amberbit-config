@@ -1,0 +1,6 @@
+default: 
+  current_file_name: default.yml
+  current_env: unknown
+test:
+  current_env: test
+

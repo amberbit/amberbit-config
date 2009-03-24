@@ -1,15 +1,14 @@
 require 'rake'
-require 'rake/testtask'
 require 'rake/rdoctask'
+require 'spec/rake/spectask'
 
-desc 'Default: run unit tests.'
-task :default => :test
+desc 'Default: run Specs.'
+task :default => :spec
 
-desc 'Test the amberbit_app_config plugin.'
-Rake::TestTask.new(:test) do |t|
+ 
+desc 'Run specs on the plugin.'
+Spec::Rake::SpecTask.new(:spec) do |t|
   t.libs << 'lib'
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
   t.verbose = true
 end
 

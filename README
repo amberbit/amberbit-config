@@ -6,37 +6,41 @@ Provides simple global configuration for Ruby on Rails application using YAML fi
 Installation
 ============
 
-  $ ./script/plugin install git://github.com/amberbit/amberbit-config.gi
+  $ ./script/plugin install git://github.com/amberbit/amberbit-config.git
   $ rake amberbit:config:setup
 
 Usage
-===== 
+=====
 
 Place your application configuration default values into #{RAILS_ROOT}/config/application/default.yml:
 
     default:
-      application_name: SuperApp
-      url: http://localhost:3000/
+      application:
+        name: SuperApp
+        url: http://localhost:3000/
 
     test:
-      url: http://testhost:3000/
+      # overwrite application.url key only in test env
+      application:
+        url: http://testhost:3000/
 
 And overwrite values you wish on per-installation basis in #{RAILS_ROOT}/config/application/config.yml:
 
     default:
-      application_name: SuperApp specially for you
-    
+      application:
+        name: SuperApp specially for you
+
     production:
-      url: http://yoursuperhiperdomain.com
+      application:
+        url: http://yoursuperhiperdomain.com
 
 In your application Ruby code you can access the values in 2 following ways:
 
-  AppConfig['application_name']
-  > SuperApp specially for you
+  AppConfig['application']['name'] #=> SuperApp specially for you
+
 or
 
-  AppConfig.application_name
-  > SuperApp specially for you
+  AppConfig.application.name #=> SuperApp specially for you
 
 Copyright (c) 2008/2009 Wojciech Piekutowski, released under the MIT license
 Copyright (c) 2009 Hubert Łępicki, released under the MIT license

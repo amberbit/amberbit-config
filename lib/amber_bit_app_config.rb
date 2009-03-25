@@ -8,8 +8,11 @@
 #
 # Then in your ruby code:
 #
-#   AppConfig['my_app_name']
-#   > "Super App"
+#   AppConfig['my_app_name'] #=> "Super App"
+#
+#   or
+#
+#   AppConfig.my_app_name #=> "Super App"
 #
 module AmberBitAppConfig
   # Turns object into HashStruct object or array of HashStructs

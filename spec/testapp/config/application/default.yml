@@ -1,6 +1,6 @@
-default: 
+default:
   app:
     name: MyApp
-    app_url: http://myapp.com
+    url:  http://myapp.com
   author: AmberBit
-  current_file_name: config.yml
+  current_file_name: default.yml

@@ -14,21 +14,28 @@ namespace :amberbit do
       end
 
 default_contents = {}
-default_contents['config'] = <<BEGIN
-# Store your application configuration defaults here. Values defined here can be easily overwritten by
-# assigning them new values in default.yml file.
+default_contents['default'] = <<BEGIN
+# Store your application configuration defaults here. This file should be under
+# version control. In case you need installation specific settings please copy
+# config.template.yml to config.yml and ignore the latter with your version
+# control system.
 #
 # Usage
 # ------
 #
 # in this file:
-# default: My Super App
+# default:
+#   application_name: My Super App
 #
 # development:
 #   title_prefix: Development Mode
-# 
-# in ruby:
+#
+# in your code:
 # This is <%= AppConfig['application_name'] %>
+#
+# or
+#
+# This is <%= AppConfig.application_name %>
 #
 default:
 
@@ -36,32 +43,37 @@ development:
 
 test:
 
+staging:
+
 production:
 
 BEGIN
 
-default_contents['default'] = <<BEGIN
-# See config.yml for usage
-default: 
+default_contents['config.template'] = <<BEGIN
+# See default.yml for usage.
+default:
 
 development:
 
 test:
 
+staging:
+
 production:
 
 BEGIN
 
 
-     %w(default config).each do |fn| 
+     %w(default config.template).each do |fn|
        if File.exists?(File.join(RAILS_ROOT, "config", "application", "#{fn}.yml"))
           puts "File config/application/#{fn}.yml already exists, skipping."
-       else 
+       else
           f = File.new(File.join(RAILS_ROOT, "config", "application", "#{fn}.yml"), "w+")
+          f.write(default_contents[fn])
           f.close
           puts "File config/application/#{fn}.yml was created."
        end
      end
-    end  
+    end
   end
 end

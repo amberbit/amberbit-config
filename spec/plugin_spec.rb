@@ -1,6 +1,7 @@
 require 'spec/spec_helper'
+require 'lib/amber_bit_app_config.rb'
 
-describe String do
+describe AmberBitAppConfig do
   it "should load initial config on Rails startup" do
     require File.expand_path(File.dirname(__FILE__) + "/testapp/config/environment")
     require 'spec/rails'

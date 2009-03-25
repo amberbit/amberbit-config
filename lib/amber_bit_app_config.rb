@@ -8,26 +8,6 @@ class HashStruct < OpenStruct
   end
 end
 
-class Object
-  def to_hashstruct
-    self
-  end
-end
-
-class Array
-  def to_hashstruct
-    map { |el| el.to_hashstruct }
-  end
-end
-
-class Hash
-  def to_hashstruct
-    mapped = {}
-    each { |key,value| mapped[key] = value.to_hashstruct }
-    HashStruct.new(mapped)
-  end
-end
-
 # Defines class used for storing application-wide setting values.
 # == Usage:
 #
@@ -42,6 +22,21 @@ end
 #   > "Super App"
 #
 module AmberBitAppConfig
+  # Turns object into HashStruct object or array of HashStructs
+  def self.to_hashstruct(object)
+    case object
+    when Array
+      object.map { |el| to_hashstruct(el) }
+    when Hash
+      mapped = {}
+      object.each { |key,value| mapped[key] = to_hashstruct(value) }
+      HashStruct.new(mapped)
+    when Object
+      object
+    else
+      raise "You shouldn't get here!"
+    end
+  end
 
   # Recursivelly merges two hashes
   def self.special_merge!(h1, h2)
@@ -89,6 +84,6 @@ module AmberBitAppConfig
     if File.exist? config_file
       config = process_config(config_file, config)
     end
-    Object.const_set('AppConfig', config.to_hashstruct)
+    Object.const_set('AppConfig', to_hashstruct(config))
   end
 end

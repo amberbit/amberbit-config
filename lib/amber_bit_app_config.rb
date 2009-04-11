@@ -72,6 +72,9 @@ module AmberBitAppConfig
 
   def self.initialize
     default_file = File.join(Rails.root, 'config', 'application', 'default.yml')
+
+    return unless File.exist?(default_file)
+
     config = process_config(default_file)
     config_file = File.join(Rails.root, 'config', 'application', 'config.yml')
     if File.exist? config_file

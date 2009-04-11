@@ -43,7 +43,7 @@ module AmberBitAppConfig
     h1
   end
 
-  # Loads YAML file, converts it's values to Hash and merges with current config hash 
+  # Loads YAML file, converts it's values to Hash and merges with current config hash
   # passed as 2nd parameter. Merged hash of options is returned by this method.
   def self.process_config(file, current_config = nil)
     new_config = YAML.load_file(file) || {}

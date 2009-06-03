@@ -4,6 +4,6 @@ require "ostruct"
 # accessor mode via square brackets like hashes
 class HashStruct < OpenStruct
   def [](key)
-    self.send key
+    self.send key unless key == nil
   end
 end

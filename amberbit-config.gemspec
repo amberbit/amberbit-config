@@ -16,7 +16,8 @@ Gem::Specification.new do |s|
     "README"
   ]
   s.files = [
-    "MIT-LICENSE",
+    ".gitignore",
+     "MIT-LICENSE",
      "README",
      "Rakefile",
      "VERSION",
@@ -26,6 +27,7 @@ Gem::Specification.new do |s|
      "lib/amber_bit_app_config.rb",
      "lib/amberbit-config.rb",
      "lib/hash_struct.rb",
+     "rails/init.rb",
      "spec/library_spec.rb",
      "spec/plugin_spec.rb",
      "spec/spec.opts",

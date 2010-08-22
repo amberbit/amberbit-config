@@ -1,7 +1,5 @@
 require 'spec/spec_helper'
-require 'yaml'
-require 'lib/hash_struct'
-require 'lib/amber_bit_app_config.rb'
+require 'lib/amberbit-config'
 
 describe AmberBitAppConfig do
   before :each do

@@ -20,3 +20,17 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "amberbit-config"
+    gemspec.summary = "Yet Another AppConfig for Rails but not only"
+    gemspec.description = "Reads YAML files with configuration. Allows you to specify default configuration file you can store in repository and overwrite it with custom configuration file for each application instance and environment."
+    gemspec.email = "hubert.lepicki@amberbit.com"
+    gemspec.homepage = "http://github.com/amberbit/amberbit-config"
+    gemspec.authors = ["Wojciech Piekutowski", "Hubert Lepicki"]
+  end
+rescue LoadError
+  puts "Jeweler not available. Install it with: gem install jeweler"
+end

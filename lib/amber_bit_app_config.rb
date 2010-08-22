@@ -26,19 +26,13 @@ module AmberBitAppConfig
       HashStruct.new(mapped)
     when Object
       object
-    else
-      raise "You shouldn't get here!"
     end
   end
 
   # Recursivelly merges two hashes
   def self.special_merge!(h1, h2)
     h2.each do |key, new_val|
-      if new_val.is_a? Hash
-        h1[key] = special_merge!(h1[key] || {}, new_val)
-      else
-        h1[key] = new_val
-      end
+      h1[key] = new_val.is_a?(Hash) ? special_merge!(h1[key] || {}, new_val) : new_val
     end
     h1
   end
@@ -48,11 +42,8 @@ module AmberBitAppConfig
   def self.process_config(file, current_config = nil)
     new_config = YAML.load_file(file) || {}
     default_config = new_config['default']
-    if defined?(Rails)
-      env_config = new_config[Rails.env]
-    else
-      env_config = nil
-    end
+
+    env_config = defined?(Rails) ? new_config[Rails.env] : nil
 
     config =
     if default_config.nil? && env_config.nil?
@@ -63,15 +54,9 @@ module AmberBitAppConfig
       default_config
     elsif !default_config.nil? && !env_config.nil?
       special_merge!(default_config, env_config)
-    else
-      raise "You shouldn't get here!"
     end
 
-    if current_config.nil?
-      config
-    else
-      special_merge!(current_config, config)
-    end
+    current_config.nil? ? config : special_merge!(current_config, config)
   end
 
   def self.initialize(default_file = File.join(Rails.root, 'config', 'application', 'default.yml'),
@@ -86,3 +71,4 @@ module AmberBitAppConfig
     Object.const_set('AppConfig', to_hashstruct(config))
   end
 end
+

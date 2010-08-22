@@ -6,8 +6,17 @@ Provides simple global configuration for Ruby on Rails application using YAML fi
 Installation
 ============
 
+As a Rails plugin:
+------------------
+
   $ ./script/plugin install git://github.com/amberbit/amberbit-config.git
   $ rake amberbit:config:setup
+
+As a gem:
+---------
+
+  $ gem install amberbit-config
+
 
 Usage
 =====

@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
      "README",
      "Rakefile",
      "VERSION",
+     "amberbit-config.gemspec",
      "init.rb",
      "install.rb",
      "lib/amber_bit_app_config.rb",

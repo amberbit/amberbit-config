@@ -48,7 +48,11 @@ module AmberBitAppConfig
   def self.process_config(file, current_config = nil)
     new_config = YAML.load_file(file) || {}
     default_config = new_config['default']
-    env_config = new_config[Rails.env]
+    if defined?(Rails)
+      env_config = new_config[Rails.env]
+    else
+      env_config = nil
+    end
 
     config =
     if default_config.nil? && env_config.nil?
@@ -70,13 +74,12 @@ module AmberBitAppConfig
     end
   end
 
-  def self.initialize
-    default_file = File.join(Rails.root, 'config', 'application', 'default.yml')
+  def self.initialize(default_file = File.join(Rails.root, 'config', 'application', 'default.yml'),
+                      config_file = File.join(Rails.root, 'config', 'application', 'config.yml'))
 
     return unless File.exist?(default_file)
 
     config = process_config(default_file)
-    config_file = File.join(Rails.root, 'config', 'application', 'config.yml')
     if File.exist? config_file
       config = process_config(config_file, config)
     end

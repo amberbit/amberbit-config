@@ -28,3 +28,4 @@ describe AmberBitAppConfig do
     AppConfig.current_env.should eql("test")
   end
 end
+

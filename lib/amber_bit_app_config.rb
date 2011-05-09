@@ -63,6 +63,7 @@ module AmberBitAppConfig
                       config_file = File.join(Rails.root, 'config', 'application', 'config.yml'))
 
     return unless File.exist?(default_file)
+    return if defined?(AppConfig)
 
     config = process_config(default_file)
     if File.exist? config_file
@@ -71,4 +72,3 @@ module AmberBitAppConfig
     Object.const_set('AppConfig', to_hashstruct(config))
   end
 end
-

@@ -1,0 +1,66 @@
+AmberBit Config
+===============
+
+Provides simple global configuration for Ruby on Rails application using YAML files.
+
+Installation
+============
+
+As a local gem:
+---------------
+
+    1. Edit Gemfile, located in your application and add the following line:
+        gem "amberbit-config", :path => "amberbit-config"
+    2. Run bundle:
+        bundle
+    3. Use rake for running tasks:
+        rake amberbit:config:setup
+
+Usage
+=====
+
+Place your application configuration default values into #{Rails.root}/config/app_config_default.yml:
+
+    default:
+      application:
+        name: SuperApp
+        url: http://localhost:3000/
+
+    test:
+      # overwrite application.url key only in test env
+      application:
+        url: http://testhost:3000/
+
+And overwrite values you wish on per-installation basis in #{Rails.root}/config/app_config.yml:
+
+    default:
+      application:
+        name: SuperApp specially for you
+
+    production:
+      application:
+        url: http://yoursuperhiperdomain.com
+
+In your application Ruby code you can access the values in 2 following ways:
+
+  AppConfig["application"]["name"] #=> SuperApp specially for you
+
+or
+
+  AppConfig.application.name #=> SuperApp specially for you
+
+Keys are deep-merged, for example:
+  production env:
+
+  AppConfig.application.name #=> SuperApp specially for you
+  AppConfig.application.url #=> http://yoursuperhiperdomain.com
+
+  development env:
+
+  AppConfig.application.name #=> SuperApp specially for you
+  AppConfig.application.url #=> http://localhost:3000/
+
+
+Copyright (c) 2008/2009 Wojciech Piekutowski, released under the MIT license
+Copyright (c) 2009 Hubert Łępicki, released under the MIT license
+Copyright (c) 2011 Piotr Tynecki, released under the MIT license

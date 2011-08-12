@@ -3,8 +3,8 @@ AmberBit Config
 
 Provides simple global configuration for Ruby on Rails application using YAML files.
 
-Installation
-============
+Installation:
+=============
 
 As a local gem:
 ---------------
@@ -16,8 +16,8 @@ As a local gem:
     3. Use rake for running tasks:
         rake amberbit:config:setup
 
-Usage
-=====
+Usage:
+======
 
 Place your application configuration default values into #{Rails.root}/config/app_config_default.yml:
 

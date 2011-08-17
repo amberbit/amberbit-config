@@ -1,0 +1,14 @@
+default:
+    appname: Default
+
+development:
+    appname: Development
+
+test:
+    appname: Test
+
+staging:
+    appname: Staging
+
+production:
+    appname: Production

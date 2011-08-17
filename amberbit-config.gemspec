@@ -11,6 +11,8 @@ Gem::Specification.new do |s|
     s.version = "1.1.0"
 
     s.files = Dir["lib/**/*", "config/**/*"] + ["MIT-LICENSE", "README.rdoc", "VERSION"]
-
     s.require_path = [".", "lib"]
+
+    s.add_development_dependency "rspec"
+    s.add_development_dependency "rspec-rails"
 end

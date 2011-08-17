@@ -11,7 +11,7 @@ describe AmberbitConfig do
                 ENV["RAILS_ENV"] = x
                 `rails s -d -p #{port} -e #{x}`
 
-                sleep(0.5)
+                sleep(0.1)
 
                 url = URI.parse("http://127.0.0.1:#{port}")
                 source = Net::HTTP.start(url.host, url.port) { |html| html.get("/").body }.split()[7]

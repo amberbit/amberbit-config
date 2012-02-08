@@ -1,8 +1,0 @@
-default:
-  app:
-    url:  http://myapp.localhost
-  current_file_name: config.yml
-  current_env: unknown
-
-test:
-  current_env: test

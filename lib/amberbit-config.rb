@@ -2,15 +2,13 @@ require "yaml"
 require "ostruct"
 require "amberbit-config/engine"
 
-class HashStruct < OpenStruct
-  def [](key)
-    self.send key unless key == nil
-  end
-end
-
 module AmberbitConfig
-  class DeepHashStruct
-    def create(object)
+  class HashStruct < ::OpenStruct
+    def [](key)
+      self.send key unless key == nil
+    end
+
+    def self.create(object)
       case object
       when Array
         object.map { |item| create(item) }
@@ -65,14 +63,7 @@ module AmberbitConfig
     return unless File.exist?(default_file)
     return if defined?(AppConfig)
 
-#        config = process_config(default_file)
-
-#        if File.exist? config_file
-#            config = process_config(config_file, config)
-#        end
-
     config = Config.new default_file, config_file
-
-    Object.const_set 'AppConfig', DeepHashStruct.create(config.data)
+    Object.const_set 'AppConfig', HashStruct.create(config.data)
   end
 end

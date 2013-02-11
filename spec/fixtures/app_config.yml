@@ -1,0 +1,21 @@
+---
+default:
+  mailer:
+    default_url: ! 'localhost:3000'
+    send_method: smtp
+  subdomains:
+    - en
+    - ru
+  default: DEFAULT
+
+test:
+  mailer:
+    default_url: example.com
+  subdomains:
+    - en
+    - "<%= ENV['LANG'] %>"
+  test: TEST
+
+development:
+staging:
+production:

@@ -1,15 +1,23 @@
-require "rubygems"
+require 'rubygems'
 
-require File.expand_path("../dummy/config/environment", __FILE__)
+ENV['RAILS_ENV'] = ENV['RACK_ENV'] = 'test'
+ENV['LANG'] = 'jp'
 
-ENV["RAILS_ENV"] ||= "test"
-
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-
-require "rspec/rails"
+require 'rspec'
+require_relative '../lib/amberbit-config'
 
 RSpec.configure do |config|
-    config.mock_with :rspec
-    config.fixture_path = "#{::Rails.root}/spec/fixtures"
-    config.use_transactional_fixtures = true
+  config.mock_with :rspec
+end
+
+# some helpers for fixtures
+def path_for(config);   File.expand_path(File.join('../fixtures', config), __FILE__) ;end
+def empty;              path_for 'empty.yml'              ;end
+def app_config;         path_for 'app_config.yml'         ;end
+def app_config_default; path_for 'app_config_default.yml' ;end
+
+RSpec::Matchers.define :have_constant do |const|
+  match do |owner|
+    owner.const_defined?(const)
+  end
 end

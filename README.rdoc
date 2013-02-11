@@ -1,25 +1,50 @@
 AmberBit Config
 ===============
 
-Provides simple global configuration for Ruby on Rails application using YAML files.
+Provides simple global configuration for ruby applications using YAML files.
 
 Installation:
 =============
 
-As a local gem:
+With bundler:
 ---------------
 
     1. Edit Gemfile, located in your application and add the following line:
-        gem "amberbit-config", :path => "amberbit-config"
+        gem 'amberbit-config'
     2. Run bundle:
-        bundle
-    3. Use rake for running tasks:
+        bundle install
+    3. Use rake to generate configuration files:
         rake amberbit:config:setup
+    4. Make sure that ./config/app_config.yml stays in .gitignore
+
+As a rails engine:
+------------------
+
+It will work without any other actions as a rails engine. It takes environment name from:
+
+    ENV['RAILS_ENV'] or ENV['RACK_ENV'] or ENV['APP_CONFIG_ENV']
+
+AppConfig should be initialized before environment configuration. If you need to use it within ./config/application.rb then
+add after Bundler.require
+
+    require 'amberbit-config'
+    AmberbitConfig.initialize_within File.dirname(__FILE__)
+
+Any ruby application
+--------------------
+For any other app require and initialize AppConfig as above, just make sure that there's an ENV variable. You can also
+specify files to load, i.e.:
+
+    require 'amberbit-config'
+    ENV['RACK_ENV'] = 'development'
+    AmberbitConfig.initialize 'config/app_config_default.yml', 'config/app_config.yml'
+
+Tested with Ruby on Rails, Sinatra, and plain old ruby.
 
 Usage:
 ======
 
-Place your application configuration default values into #{Rails.root}/config/app_config_default.yml:
+Place your application configuration default values into ./config/app_config_default.yml:
 
     default:
       application:
@@ -31,7 +56,7 @@ Place your application configuration default values into #{Rails.root}/config/ap
       application:
         url: http://testhost:3000/
 
-And overwrite values you wish on per-installation basis in #{Rails.root}/config/app_config.yml:
+And overwrite values you wish on per-installation basis in ./config/app_config.yml:
 
     default:
       application:

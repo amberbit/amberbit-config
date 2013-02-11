@@ -1,1 +1,0 @@
-AmberbitConfig.initialize

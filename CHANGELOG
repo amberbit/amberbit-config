@@ -1,2 +1,15 @@
+==== 11.02.2012
+- refactored to fit for any ruby app, and removed rails dependency - also use rspec instead of rspec-rails
+- moved everything under AmberbitConfig namespace
+- added more tests
+- new features:
+  - HashStruct#to_hash
+  - HashStruct validation of specified keys, if they are not in conflict with existing methods
+  - HashStruct raise error if it tries to access unset variable
+  - Config is now beeing parsed with ERB first
+- eliminated few bugs like:
+  - if there's an entry within environment and no entry within default, it doesn't set the key
+  - rake tasks were run two times
+
 ==== amberbit-config 1.1.0 (12.08.2011) ====
 - rewritten for Ruby 1.9.2 and Rails 3.1.0.rc6

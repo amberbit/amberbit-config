@@ -35,8 +35,8 @@ module AmberbitConfig
     private
 
     def parse_yaml(file)
-      config = YAML.load_file(file) || {}
-      env    = defined?(Rails) ? Rails.env : ENV['RAILS_ENV'] || ENV['RACK_ENV']
+      config = File.exist?(file) ? YAML.load_file(file) || {} : {}
+      env    = ENV['RAILS_ENV'] || ENV['RACK_ENV']
 
       config_from config['default'], config[env]
     end

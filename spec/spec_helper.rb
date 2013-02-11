@@ -1,18 +1,13 @@
 require 'rubygems'
-require 'pry'
 
-require File.expand_path('../dummy/config/environment', __FILE__)
-
-ENV['RAILS_ENV'] = 'test'
-ENV['RACK_ENV'] = 'test'
+ENV['RAILS_ENV'] = ENV['RACK_ENV'] = 'test'
 ENV['LANG'] = 'jp'
 
-require 'rspec/rails'
+require 'rspec'
+require_relative '../lib/amberbit-config'
 
 RSpec.configure do |config|
   config.mock_with :rspec
-  config.fixture_path = Rails.root.join 'spec', 'fixtures'
-  config.use_transactional_fixtures = true
 end
 
 # some helpers for fixtures

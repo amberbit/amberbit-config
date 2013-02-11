@@ -47,7 +47,9 @@ module AmberbitConfig
     private
 
     def check_hash_for_conflicts(hash)
-      if hash.is_a?(Hash) && (conflicts = self.public_methods & hash.keys.map(&:to_sym)).present?
+      raise HashArgumentError, 'It must be a hash' unless hash.is_a?(Hash)
+
+      unless (conflicts = self.public_methods & hash.keys.map(&:to_sym)).empty?
         raise HashArgumentError, "Rename keys in order to avoid conflicts with internal calls: #{conflicts.join(', ')}"
       end
     end
@@ -106,11 +108,19 @@ module AmberbitConfig
   end
 
   # Initialize configuration for application
-  def self.initialize(default_file = Rails.root.join('config', 'app_config_default.yml'), config_file = Rails.root.join('config', 'app_config.yml'))
+  def self.initialize_within(root_path)
+    initialize path_from(root_path, 'app_config_default.yml'), path_from(root_path, 'app_config.yml')
+  end
+
+  def self.initialize(default_file, config_file)
     return unless File.exist?(default_file)
     return if defined?(AppConfig)
 
     config = Config.new default_file, config_file
     Object.const_set 'AppConfig', HashStruct.create(config.data)
+  end
+
+  def self.path_from(root_path, file)
+    File.expand_path File.join(File.dirname(root_path), 'config', file)
   end
 end

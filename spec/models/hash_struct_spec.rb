@@ -9,7 +9,14 @@ describe AmberbitConfig::HashStruct, 'OpenStruct alike object which also provide
     specify { subject['c'].should be_nil }
 
     it 'should raise error, if key is not set', 'this should raise early errors for i.e. typos' do
-      expect { subject['d'] }.to raise_error('MethodMissing')
+      expect { subject['d'] }.to raise_error(AmberbitConfig::ConfigNotSetError)
+    end
+
+    it 'should allow setting option on runtime' do
+      expect do
+        subject['d'] = 5
+        expect(subject.d).to be == 5
+      end.not_to raise_error(AmberbitConfig::ConfigNotSetError)
     end
 
     its(:to_hash) { should == {'a' => 'AA', 'b' => %w(a b c), 'c' => nil} }
@@ -26,4 +33,13 @@ describe AmberbitConfig::HashStruct, 'OpenStruct alike object which also provide
 
     its(:to_hash) { should == config }
   end
+
+  describe 'conflicting keys' do
+    it 'should raise an error if any of the keys is conflicting with HashStruct methods' do
+      expect do
+        AmberbitConfig::HashStruct.new a: 'A', method: 'smtp', class: 'Sh*t can happen', to_s: 'no no'
+      end.to raise_error(AmberbitConfig::HashArgumentError, /(method|class|to_s)/)
+    end
+  end
+
 end

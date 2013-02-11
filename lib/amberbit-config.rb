@@ -3,9 +3,25 @@ require "ostruct"
 require "amberbit-config/engine"
 
 module AmberbitConfig
+  class HashArgumentError < ::ArgumentError; end
+  class ConfigNotSetError < ::NoMethodError; end
+
   class HashStruct < ::OpenStruct
+    def initialize(hash = nil)
+      check_hash_for_conflicts hash if hash
+      super
+    end
+
     def [](key)
       self.send key unless key == nil
+    end
+
+    def method_missing(method, *args, &block)
+      if method =~ /=\z/ || self.respond_to?(method)
+        super
+      else
+        raise ConfigNotSetError, "Configuration option: '#{method}' was not set"
+      end
     end
 
     def self.create(object)
@@ -18,6 +34,14 @@ module AmberbitConfig
         HashStruct.new mapped
       else
         object
+      end
+    end
+
+    private
+
+    def check_hash_for_conflicts(hash)
+      if hash.is_a?(Hash) && (conflicts = self.public_methods & hash.keys.map(&:to_sym)).present?
+        raise HashArgumentError, "Rename keys in order to avoid conflicts with internal calls: #{conflicts.join(', ')}"
       end
     end
   end
@@ -49,7 +73,10 @@ module AmberbitConfig
       end
     end
 
-    def deep_merge!(origin = {}, from = {})
+    def deep_merge!(origin, from)
+      origin ||= {}
+      from   ||= {}
+
       from.each do |key, value|
         origin[key] = value.is_a?(Hash) ? deep_merge!(origin[key], value) : value
       end

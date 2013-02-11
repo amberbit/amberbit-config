@@ -4,7 +4,7 @@ describe AmberbitConfig::Config do
   let(:defaults) {{
     'mailer' => {
         'default_url' => 'lvm.me:54544',
-        'method' => 'test'
+        'send_method' => 'test'
       },
       'subdomains' => %w(en ru),
       'test' => 'TEST',
@@ -14,7 +14,7 @@ describe AmberbitConfig::Config do
   let(:customs) {{
     'mailer' => {
       'default_url' => 'example.com',
-      'method' => 'smtp'
+      'send_method' => 'smtp'
     },
     'subdomains' => %w(en jp),
     'test' => 'TEST',
@@ -28,7 +28,7 @@ describe AmberbitConfig::Config do
       should == {
         'mailer' => {
           'default_url' => 'example.com',
-          'method' => 'smtp'
+          'send_method' => 'smtp'
         },
         'subdomains' => %w(en jp),
         'test' => 'TEST',

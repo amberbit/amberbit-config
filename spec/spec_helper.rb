@@ -7,8 +7,6 @@ ENV['RAILS_ENV'] = 'test'
 ENV['RACK_ENV'] = 'test'
 ENV['LANG'] = 'jp'
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f}
-
 require 'rspec/rails'
 
 RSpec.configure do |config|

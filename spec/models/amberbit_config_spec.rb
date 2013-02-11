@@ -5,6 +5,6 @@ describe AmberbitConfig do
     expect(Object).not_to have_constant(:AppConfig)
     AmberbitConfig.initialize app_config_default, app_config
     expect(Object).to have_constant(:AppConfig)
-    expect(AppConfig.mailer.method).to be == 'smtp'
+    expect(AppConfig.mailer.send_method).to be == 'smtp'
   end
 end

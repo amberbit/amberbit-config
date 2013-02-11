@@ -2,7 +2,7 @@
 default:
   mailer:
     default_url: ! 'localhost:3000'
-    method: smtp
+    send_method: smtp
   subdomains:
     - en
     - ru

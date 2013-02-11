@@ -43,13 +43,13 @@ describe AmberbitConfig::Config do
   context 'when some of the configuration is missing' do
     it 'should set one of the present files' do
       c = AmberbitConfig::Config.new '', app_config_default
-      expect(c.default).to be == {}
+      expect(c.default).to be_empty
       expect(c.custom).to be == defaults
       expect(c.data).to be == defaults
 
       c = AmberbitConfig::Config.new app_config_default, empty
       expect(c.default).to be == defaults
-      expect(c.custom).to be == {}
+      expect(c.custom).to be_empty
       expect(c.data).to be == defaults
     end
 

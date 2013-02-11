@@ -1,6 +1,7 @@
-require "yaml"
-require "ostruct"
-require "amberbit-config/engine"
+require 'erb'
+require 'yaml'
+require 'ostruct'
+require 'amberbit-config/engine'
 
 module AmberbitConfig
   class HashArgumentError < ::ArgumentError; end
@@ -59,35 +60,48 @@ module AmberbitConfig
       @default = parse_yaml defaults_file
       @custom  = parse_yaml customs_file
 
-      @data = deep_merge! default, custom
+      @data = deep_merge default, custom
     end
 
     private
 
     def parse_yaml(file)
-      config = File.exist?(file) ? YAML.load_file(file) || {} : {}
+      file_content = File.exist?(file) ? ERB.new(File.read(file)).result : '---'
+
+      config = YAML.load(file_content) || {}
       env    = ENV['RAILS_ENV'] || ENV['RACK_ENV']
 
       config_from config['default'], config[env]
     end
 
     def config_from(default_config, env_config)
-      if default_config.present? && env_config.present?
-        deep_merge! default_config, env_config
+      if present?(default_config) && present?(env_config)
+        deep_merge default_config, env_config
       else
         env_config || default_config || {}
       end
     end
 
-    def deep_merge!(origin, from)
+    def deep_merge(origin, from)
       origin ||= {}
       from   ||= {}
+      deep_merge!(origin.dup, from)
+    end
 
+    def deep_merge!(origin, from)
       from.each do |key, value|
-        origin[key] = value.is_a?(Hash) ? deep_merge!(origin[key], value) : value
+        origin[key] = value.is_a?(Hash) ? deep_merge(origin[key], value) : value
       end
 
       origin
+    end
+
+    def present?(object)
+      !blank?(object)
+    end
+
+    def blank?(object)
+      object.respond_to?(:empty?) ? object.empty? : !object
     end
   end
 

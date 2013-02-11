@@ -71,7 +71,7 @@ module AmberbitConfig
       file_content = File.exist?(file) ? ERB.new(File.read(file)).result : '---'
 
       config = YAML.load(file_content) || {}
-      env    = ENV['RAILS_ENV'] || ENV['RACK_ENV']
+      env    = ENV['RAILS_ENV'] || ENV['RACK_ENV'] || ENV['APP_CONFIG_ENV']
 
       config_from config['default'], config[env]
     end

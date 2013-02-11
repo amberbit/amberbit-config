@@ -1,8 +1,9 @@
 if defined?(Rails)
   namespace :amberbit do
     namespace :config do
+
       desc 'Creates config/app_config_default.yml and config/app_config.yml files'
-      task :setup do
+      task :setup => :environment do
         if File.directory? Rails.root.join('config')
           puts 'Directory config already exists, skipping.'
         elsif !File.exists?(Rails.root.join('config'))
@@ -24,6 +25,11 @@ if defined?(Rails)
 
             puts "File config/#{fn}.yml was created."
           end
+        end
+
+        if (gitignore = Rails.root.join('.gitignore')) && File.exists?(gitignore)
+          File.open(gitignore, 'a') { |f| f << "\nconfig/app_config.yml" }
+          puts 'Added entry in .gitignore'
         end
       end
     end

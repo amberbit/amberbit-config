@@ -16,6 +16,12 @@ module AmberbitConfig
       self.send key unless key == nil
     end
 
+    def to_hash
+      _copy = {}
+      @table.each { |key, value| _copy[key] = value.is_a?(HashStruct) ? value.to_hash : value }
+      _copy
+    end
+
     def method_missing(method, *args, &block)
       if method =~ /=\z/ || self.respond_to?(method)
         super
